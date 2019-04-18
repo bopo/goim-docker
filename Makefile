@@ -23,8 +23,6 @@ destry:
 
 clean: clean-pyc
 	rm -rf build
-	rm -rf volumes
-	rm -rf configs
 
 clean-pyc:
 	find . -name '*.pyc' -exec rm -f {} +
