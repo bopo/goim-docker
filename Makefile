@@ -16,14 +16,14 @@ help:
 	@echo "restart  - 重启项目容器"
 
 doctor:
-	docker-compose run --rm django discovery
-	docker-compose run --rm django goim
+	docker-compose run --rm discovery doctor
+	docker-compose run --rm imserver doctor
 
 destry:
 	docker-compose rm -a -f
 
 clean: clean-pyc
-	rm -rf project/app
+	rm -rf build
 
 clean-pyc:
 	find . -name '*.pyc' -exec rm -f {} +
@@ -32,20 +32,18 @@ clean-pyc:
 	find . -name '__pycache__' -exec rm -fr {} +
 
 fetch:
-	rm -rf project/app
-	cp -R ../server project/app
-
-build:
 	test -d build/imserver || git clone --depth=1 https://github.com/bopo/goim.git build/imserver
+	test -d build/discovery || git clone --depth=1 https://github.com/bopo/discovery.git build/discovery
+
+build: fetch
 	cd build/imserver && CGO_ENABLED=0 GOOS=linux GOARCH=amd64 make build
 	cp -R build/imserver/target compose/imserver/standard
 	docker build ./compose/imserver -t imserver:standard
 	
 	cd $(CWD)
 
-	test -d build/discovery || git clone --depth=1 https://github.com/bilibili/discovery.git build/discovery
-	cd build/discovery/ && GO111MODULE=on CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o cmd/discovery/discovery cmd/discovery/main.go
-	cp -R build/discovery/cmd/discovery compose/discovery/standard
+	cd build/discovery && CGO_ENABLED=0 GOOS=linux GOARCH=amd64 make build
+	cp -R build/discovery/target compose/discovery/standard	
 	docker build ./compose/discovery -t discovery:standard
 
 docs: 
@@ -59,9 +57,6 @@ start:
 
 setup: build
 	docker-compose up -d
-	docker-compose run --rm django python3 manage.py migrate
-	docker-compose run --rm django python3 manage.py createsuperuser
-	docker-compose run --rm django python3 manage.py collectstatic --no-input
 
 restart: 
 	docker-compose restart

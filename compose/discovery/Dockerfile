@@ -16,9 +16,10 @@ RUN chmod +x /supervisor.sh
 
 RUN mkdir -p /app/config
 
-COPY ./standard/discovery/discovery /app/discovery
-COPY ./standard/discovery/discovery-example.toml /app/config/discovery.toml
-COPY ./standard/discovery/scheduler-example.json /app/config/scheduler.json
+COPY ./standard/target /app
+
+#COPY ./standard/discovery/discovery-example.toml /app/config/discovery.toml
+#COPY ./standard/discovery/scheduler-example.json /app/config/scheduler.json
 
 WORKDIR /app
 
