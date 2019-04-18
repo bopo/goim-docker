@@ -10,7 +10,6 @@ help:
 	@echo "build    - 编译所需镜像"
 	@echo "start    - 开始项目容器"
 	@echo "stop     - 停止项目容器"
-	@echo "docs     - 构建在线文档"
 	@echo "destry   - 销毁项目容器"
 	@echo "doctor   - 所有容器自检"
 	@echo "restart  - 重启项目容器"
@@ -45,9 +44,6 @@ build: fetch
 	cd build/discovery && CGO_ENABLED=0 GOOS=linux GOARCH=amd64 make build
 	cp -R build/discovery/target compose/discovery/standard	
 	docker build ./compose/discovery -t discovery:standard
-
-docs: 
-	cd project/app && mkdocs build && cd -
 
 stop: 
 	docker-compose stop
