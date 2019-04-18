@@ -43,7 +43,7 @@ build: fetch
 	cp scripts/discovery/* build/discovery/
 	cd build/discovery && make build
 	cp -R build/discovery/target compose/discovery/standard	
-	cp -R build/discovery/target/config volumes/discovery/	
+# 	cp -R build/discovery/target/config volumes/discovery/	
 	docker build ./compose/discovery -t discovery:standard
 
 	cd $(CWD)
@@ -51,7 +51,7 @@ build: fetch
 	cp scripts/imserver/* build/imserver/
 	cd build/imserver && make build
 	cp -R build/imserver/target compose/imserver/standard
-	cp -R build/imserver/target/config volumes/imserver/
+# 	cp -R build/imserver/target/config volumes/imserver/
 	docker build ./compose/imserver -t imserver:standard
 
 stop: 

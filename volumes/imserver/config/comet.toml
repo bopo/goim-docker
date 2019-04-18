@@ -1,6 +1,6 @@
 # This is a TOML document. Boom
 [discovery]
-    nodes = ["127.0.0.1:7171"]
+    nodes = ["discovery:7171"]
 
 [rpcServer]
     addr = ":3109"
@@ -26,8 +26,8 @@
     bind = [":3102"]
     tlsOpen = false
     tlsBind = [":3103"]
-    certFile = "../../cert.pem"
-    privateFile = "../../private.pem"
+    certFile = "/app/certs/cert.pem"
+    privateFile = "/app/certs/private.pem"
 
 [protocol]
     timer = 32
@@ -38,7 +38,7 @@
 
 [whitelist]
     Whitelist = [123]
-    WhiteLog  = "/tmp/white_list.log"
+    WhiteLog  = "/var/log/white_list.log"
 
 [bucket]
     size = 32
