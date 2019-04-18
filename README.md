@@ -1,38 +1,38 @@
-Django 容器项目部署程序
+即时通讯容器项目部署程序
 =================
 
-自动化部署 Django 项目
+自动化部署即时通讯项目
 ----------------------
 
 ### 1.编译运行镜像
 
 ```
-# 手动操作如下
-docker build . -t alpine:3.6-project
+# 编译所需镜像
+make build
 
-# 自动操作
+# 自动启动项目(自动编译镜像)
 make setup
-
-# 以上操作二选一即可
 ```
 
 ### 2.初始化数据
 
 ```
-# 初始化数据库
-docker-compose run --rm django python3 manage.py migrate
+# imserver 配置文件路径，根据注释配置即可
+configs/imserver
 
-# 更新静态文件(js, css, img等)
-docker-compose run --rm django python3 manage.py collectstatic --no-input
-
-# 创建超级管理员(需要手动输入)
-docker-compose run --rm django python3 manage.py createsuperuser
+# discovery 配置文件路径，根据注释配置即可
+configs/discovery
 ```
 
-### 3.运行 Django 容器
+### 3.安装后启动/停止程序
 
 ```
-docker-compose up -d
+# 启动程序
+make start
+
+# 停止程序
+make stop
+
 ```
 
 以后重起服务使用下列命令行
@@ -46,7 +46,6 @@ make 和 fab 命令自行百度吧。
 
 ### 服务端本地部署使用 make 命令
 ```bash
-make help - 查看各种帮助
 make setup - 安装基本依赖(初始化)
 make fetch - 更新版本库代码
 make build - 编译所需镜像
@@ -81,12 +80,3 @@ fab -R dev pull sync migr rest
 ```bash
 fab -R pre pull sync migr rest
 ```
-
-[x] postgres
-[x] elastic
-[x] thumbor
-[x] django
-[x] minio
-[x] redis
-
-[-] k8s 部署方案
