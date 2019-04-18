@@ -23,6 +23,8 @@ destry:
 
 clean: clean-pyc
 	rm -rf build
+	rm -rf volumes
+	rm -rf configs
 
 clean-pyc:
 	find . -name '*.pyc' -exec rm -f {} +
@@ -35,15 +37,22 @@ fetch:
 	test -d build/discovery || git clone --depth=1 https://github.com/bopo/discovery.git build/discovery
 
 build: fetch
-	cd build/imserver && CGO_ENABLED=0 GOOS=linux GOARCH=amd64 make build
-	cp -R build/imserver/target compose/imserver/standard
-	docker build ./compose/imserver -t imserver:standard
-	
+	test -d volumes/discovery/config || mkdir -p volumes/discovery/config
+	test -d volumes/imserver/config || mkdir -p volumes/imserver/config
+
+	cp scripts/discovery/* build/discovery/
+	cd build/discovery && make build
+	cp -R build/discovery/target compose/discovery/standard	
+	cp -R build/discovery/target/config volumes/discovery/	
+	docker build ./compose/discovery -t discovery:standard
+
 	cd $(CWD)
 
-	cd build/discovery && CGO_ENABLED=0 GOOS=linux GOARCH=amd64 make build
-	cp -R build/discovery/target compose/discovery/standard	
-	docker build ./compose/discovery -t discovery:standard
+	cp scripts/imserver/* build/imserver/
+	cd build/imserver && make build
+	cp -R build/imserver/target compose/imserver/standard
+	cp -R build/imserver/target/config volumes/imserver/
+	docker build ./compose/imserver -t imserver:standard
 
 stop: 
 	docker-compose stop

@@ -1,0 +1,5 @@
+build
+/**/target/
+/.*
+!.gitignore
+*.pyc
