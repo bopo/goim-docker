@@ -1,6 +1,10 @@
 version: '2'
 
 services:
+  redis:
+    restart: always
+    image: redis:alpine
+  
   zoo1:
     image: wurstmeister/zookeeper
     restart: unless-stopped
