@@ -22,7 +22,8 @@ destry:
 	docker-compose rm -a -f
 
 clean: clean-pyc
-	rm -rf build
+	rm -rf compose/imserver/target
+	rm -rf compose/discovery/target
 
 clean-pyc:
 	find . -name '*.pyc' -exec rm -f {} +
@@ -39,18 +40,13 @@ build: fetch
 	test -d volumes/imserver/config || mkdir -p volumes/imserver/config
 
 	cp scripts/discovery/* build/discovery/
-	
-	cd build/discovery && make build
+	cd build/discovery && make build && cd $(CWD)
 	cp -R build/discovery/target compose/discovery/	
-# 	cp -R build/discovery/target/conf volumes/discovery/	
 	docker build ./compose/discovery -t discovery:standard
 
-	cd $(CWD)
-
 	cp scripts/imserver/* build/imserver/
-	cd build/imserver && make build
+	cd build/imserver && make build && cd $(CWD)
 	cp -R build/imserver/target compose/imserver/
-# 	cp -R build/imserver/target/conf volumes/imserver/
 	docker build ./compose/imserver -t imserver:standard
 
 stop: 
