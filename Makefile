@@ -23,6 +23,7 @@ destry:
 
 distclean: clean
 	rm -rf build
+	git clean -xdf
 
 clean: clean-pyc
 	rm -rf compose/imserver/target
