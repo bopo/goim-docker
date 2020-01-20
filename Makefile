@@ -21,6 +21,9 @@ doctor:
 destry:
 	docker-compose rm -a -f
 
+distclean: clean
+	rm -rf build
+
 clean: clean-pyc
 	rm -rf compose/imserver/target
 	rm -rf compose/discovery/target
