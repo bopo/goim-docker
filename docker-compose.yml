@@ -1,6 +1,10 @@
 version: '2'
 
 services:
+  redis:
+    restart: always
+    image: redis:alpine
+  
   zoo1:
     image: wurstmeister/zookeeper
     restart: unless-stopped
@@ -30,6 +34,7 @@ services:
       - "7171:7171"    
     volumes:
       - ./volumes/discovery/config:/app/config:Z
+      - ./volumes/discovery/log:/var/log:Z      
     command: /supervisor.sh
 
   imserver:
@@ -42,4 +47,6 @@ services:
       - "3103:3103"
     volumes:
       - ./volumes/imserver/config:/app/config:Z
+      - ./volumes/imserver/data:/app/data:Z
+      - ./volumes/imserver/log:/var/log:Z
     command: /supervisor.sh
