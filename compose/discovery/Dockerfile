@@ -1,11 +1,10 @@
-FROM alpine:3.9
+FROM alpine:3.11
 
 COPY ./standard/supervisor /etc/supervisor
 COPY ./standard/supervisor.sh /supervisor.sh
 COPY ./standard/entrypoint.sh /entrypoint.sh
 
-RUN echo 'http://mirrors.aliyun.com/alpine/v3.9/main/' > /etc/apk/repositories
-RUN echo 'http://mirrors.aliyun.com/alpine/v3.9/community/' >> /etc/apk/repositories
+RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.tuna.tsinghua.edu.cn/g' /etc/apk/repositories
 
 RUN apk add --update supervisor
 RUN sed -i 's/\r//' /entrypoint.sh
