@@ -6,11 +6,11 @@ GOBUILD=$(GOCMD) build
 all: test build
 build:
 	rm -rf target/
-	mkdir -p target/config
+	mkdir -p target
 
-	cp cmd/comet/comet-example.toml target/config/comet.toml
-	cp cmd/logic/logic-example.toml target/config/logic.toml
-	cp cmd/job/job-example.toml target/config/job.toml
+	cp cmd/comet/comet-example.toml target/comet.toml
+	cp cmd/logic/logic-example.toml target/logic.toml
+	cp cmd/job/job-example.toml target/job.toml
 	
 	$(GOBUILD) -o target/comet cmd/comet/main.go
 	$(GOBUILD) -o target/logic cmd/logic/main.go

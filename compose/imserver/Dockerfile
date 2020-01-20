@@ -14,7 +14,7 @@ RUN sed -i 's/\r//' /supervisor.sh
 RUN chmod +x /entrypoint.sh
 RUN chmod +x /supervisor.sh
 
-COPY ./standard/target /app/target
+COPY ./target /app
 
 WORKDIR /app
 

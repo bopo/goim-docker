@@ -8,8 +8,8 @@ all: build
 build:
 	rm -rf target/
 	mkdir -p target/config
-	cp cmd/discovery/discovery-example.toml target/config/discovery.toml
-	cp cmd/discovery/scheduler-example.json target/config/scheduler.json
+	cp cmd/discovery/discovery-example.toml target/discovery.toml
+# 	cp cmd/discovery/scheduler-example.json target/scheduler.json
 	$(GOBUILD) -o target/discovery cmd/discovery/main.go
 
 test:
